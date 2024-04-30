@@ -13,6 +13,11 @@
         <button type="submit">Logout</button>
     </form>
 
+    <p>Your Token: </p>
+    <span>{{ $token }}</span>
+    <br>
+    <br>
+
     <div>
         <pre>{{ json_encode($user, JSON_PRETTY_PRINT) }}</pre>
     </div>
