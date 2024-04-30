@@ -80,11 +80,13 @@ Route::get('/', function () {
     }
   }
 
+  $name = isset($user['name']) ? $user['name'] : 'User';
+  $email = isset($user['email']) ? $user['email'] : '';
+
   // - MOVE - USER GET FROM USERINFO API ON ABOVE FUNCTION
   // $user = auth()->user(); 
-
-  $name = $user->name ?? 'User';
-  $email = $user->email ?? '';
+  // $name = $user->name ?? 'User';
+  // $email = $user->email ?? '';
 
   return view('logged_in', ['name' => $name, 'email' => $email, 'user' => $user, 'token' => $idToken]);
 });
