@@ -22,44 +22,10 @@ You may also find the following documentation from the SDK's GitHub repository u
 
 ## Getting Started
 
-Use Composer's `create-project` command to clone this repository and install the dependencies:
+Use Composer to install the dependencies:
 
 ```bash
-composer create-project auth0-samples/laravel auth0-laravel-quickstart && cd auth0-laravel-quickstart
-```
-
-Authenticate with Auth0 using the bundled Auth0 CLI:
-
-```bash
-./auth0 login
-```
-
-> **Note**  
-> Authenticate as a "user" if prompted.
-
-Create an Auth0 Application:
-
-```bash
-./auth0 apps create \
-  --name "My Laravel Backend" \
-  --type "regular" \
-  --auth-method "post" \
-  --callbacks "http://localhost:8000/callback" \
-  --logout-urls "http://localhost:8000" \
-  --reveal-secrets \
-  --no-input \
-  --json > .auth0.app.json
-```
-
-Create an Auth0 API:
-
-```bash
-./auth0 apis create \
-  --name "My Laravel Backend API" \
-  --identifier "https://github.com/auth0/laravel-auth0" \
-  --offline-access \
-  --no-input \
-  --json > .auth0.api.json
+composer install
 ```
 
 Run the application:
@@ -71,59 +37,6 @@ php artisan serve
 ## Demonstration Routes
 
 This sample includes a few demonstration routes to help you get started.
-
-### Session-Based Authentication
-
-The SDK automatically registers the following routes for session-based authentication:
-
-| Method | Route                                        | Description                                                                                                |
-| ------ | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| GET    | [/login](https://localhost:8000/login)       | Starts the user authentication flow. Sets up some initial cookies, and redirects to Auth0 to authenticate. |
-| GET    | [/callback](https://localhost:8000/callback) | Handles the return callback from Auth0. Completes setting up the user's Laravel session.                   |
-| GET    | [/logout](https://localhost:8000/logout)     | Logs the user out.                                                                                         |
-
-The `routes/web.php` file contains routes that demonstrate working with session-based authentication. These are:
-
-| Method | Route                                      | Description                                                     |
-| ------ | ------------------------------------------ | --------------------------------------------------------------- |
-| GET    | [/private](https://localhost:8000/private) | Demonstrates how to protect a route with the `auth` middleware. |
-| GET    | [/scope](https://localhost:8000/scope)     | Demonstrates how to protect a route with the `can` middleware.  |
-| GET    | [/colors](https://localhost:8000/colors)   | Demonstrates how to make Management API calls.                  |
-
-### Token-Based Authorization
-
-The `routes/api.php` file contains routes that demonstrate token-based authorization. These are:
-
-| Method | Route                                              | Description                                                          |
-| ------ | -------------------------------------------------- | -------------------------------------------------------------------- |
-| GET    | [/api](https://localhost:8000/api)                 | Demonstrates how to extract information from the request token.      |
-| GET    | [/api/private](https://localhost:8000/api/private) | Demonstrates how to protect an API route with the `auth` middleware. |
-| GET    | [/api/scope](https://localhost:8000/api/scope)     | Demonstrates how to protect an API route with the `can` middleware.  |
-| GET    | [/api/me](https://localhost:8000/api/me)           | Demonstrates how to make Management API calls.                       |
-
-## Changes to the Default Laravel Application
-
-This sample is based on [the default Laravel application](https://github.com/laravel/laravel) you can [create](https://laravel.com/docs/9.x/installation#your-first-laravel-project) using `laravel new` or `composer create-project`.
-
-> **Note**  
-> For Laravel 10, use `composer create-project laravel/laravel:^10.0` and follow the same steps outlined below.
-
-Few changes are necessary to get started, as the SDK automatically sets up all the necessary guards, middleware and other services necessary to support authentication and authorization. The following is a list of changes that have been applied:
-
-- The `auth0/login` package has been added to the `composer.json` file, using:
-
-    ```bash
-    composer require auth0/login:^7.8 --update-with-all-dependencies
-    ```
-
-- The `config/auth0.php` file was generated, using:
-
-    ```bash
-    php artisan vendor:publish --tag auth0
-    ```
-
-- The `routes/web.php` file was updated to include the demonstration routes.
-- The `routes/api.php` file was updated to include the demonstration routes.
 
 ## Feedback
 
