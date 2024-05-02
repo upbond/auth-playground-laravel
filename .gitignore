@@ -27,4 +27,3 @@
 
 # Ignore any dependencies
 /node_modules
-/storage/*
