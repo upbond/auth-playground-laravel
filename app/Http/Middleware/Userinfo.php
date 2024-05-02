@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use App\Http\Helpers\Utils;
+use Exception;
 
 class Userinfo
 {
@@ -37,6 +38,13 @@ class Userinfo
         // If idToken is still not found, return a 401 Unauthorized response
         if (!$idToken) {
             return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        // verify JWT
+        try {
+            Utils::verifyJWT($idToken);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 401);
         }
 
         $user = Utils::getUserInfo($idToken);

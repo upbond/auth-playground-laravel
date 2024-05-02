@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Helpers;
-use Illuminate\Support\Facades\Http;
+// use Illuminate\Support\Facades\Http;
+use InvalidArgumentException;
 
 class Utils
 {
@@ -86,5 +87,24 @@ class Utils
         }
 
         return null;
+    }
+
+    public static function verifyJWT($token) {
+        $jwt = $token;
+        if (!is_string($token) && !is_a($token, 'Buffer')) {
+            throw new InvalidArgumentException('invalid token input type');
+        }
+
+        // Split the JWT into its parts
+        $parts = explode('.', $jwt);
+        $length = count($parts);
+
+        if ($length !== 3) {
+            throw new InvalidArgumentException('invalid token input');
+        }
+
+        // Decode the payload and return
+        $payload = base64_decode($parts[1]);
+        return $payload;
     }
 }
