@@ -45,7 +45,7 @@ This project is licensed under the MIT license by Auth0. See the [LICENSE](./LIC
 
 Composerを使用して依存関係をインストールし、env変数を準備します：
 
-bash
+```bash
 composer install
 cp .env.dev .env
 ```
