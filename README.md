@@ -22,17 +22,20 @@ You may also find the following documentation from the SDK's GitHub repository u
 
 ## Getting Started
 
-Use Composer to install the dependencies:
+Use Composer to install the dependencies and prepare env variables:
 
 ```bash
 composer install
+cp .env.dev .env
 ```
 
 Run the application:
 
 ```
-php artisan serve
+php artisan serve --host localhost --port 8000
 ```
+
+Open in browser http://localhost:8000
 
 ## User Info Related
 ### Middleware 
