@@ -34,6 +34,21 @@ Run the application:
 php artisan serve
 ```
 
+## User Info Related
+### Middleware 
+Middleware contains the function to get userinfo and verify JWT. Defined on [Userinfo.php](app/Http/Middleware/Userinfo.php)
+
+### APIs
+API that defined a /api/userinfo for GET and POST is on [api.php](/routes/api.php)
+- Route::get('/userinfo'...
+- Route::post('/userinfo'...
+
+### Call userinfo API service
+Contain on [Utils.php](app/Http/Helpers/Utils.php)
+- `getUserInfoUrl` function is to get userinfo URL from .well-known/openid-configuration
+- `getUserInfo` is to get userinfo from userinfo API that related with mysql database
+
+
 ## Demonstration Routes
 
 This sample includes a few demonstration routes to help you get started.
