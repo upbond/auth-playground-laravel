@@ -2,6 +2,8 @@
 
 namespace App\Http\Helpers;
 // use Illuminate\Support\Facades\Http;
+
+use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
 
 class Utils
@@ -24,13 +26,14 @@ class Utils
         return [$response, $error];
 
         // if ($post_fields !== null) {
-        //     $response = Http::withHeaders($headers)
-        //                     ->post($url, $post_fields);
+        //     $response = Http::withHeaders($headers)->post($url, $post_fields);
         // } else {
-        //     $response = Http::withHeaders($headers)
-        //                     ->get($url);
+        //     $response = Http::withHeaders($headers)->get($url);
+        //     $data = $response->json();
+        //     $body = $response->body();
+        //     dd("response", $data, $body);
         // }
-    
+
         // return [$response->body(), $response->status() !== 200 ? $response->status() : null];
     }
 
@@ -55,14 +58,21 @@ class Utils
 
     public static function getUserInfo($idToken)
     {
-        $userinfo_url = self::getUserInfoUrl(); 
+        $userinfo_url = self::getUserInfoUrl();
 
         if ($userinfo_url) {
             $user = null;
 
+            $jwt_parts = explode('.', $idToken);
+            $payload_base64 = $jwt_parts[1];
+            $payload_json = base64_decode($payload_base64);
+            $payload_data = json_decode($payload_json, true);
+            // dd($payload_data);
+
             // Get user info from userinfo endpoint
             list($userInfoResp, $error_userinfo) = self::makeRequest($userinfo_url, ["Authorization: Bearer $idToken"]);
             $userinfo = json_decode($userInfoResp, true);
+            // dd("test", $userInfoResp);
 
             if ($error_userinfo) {
                 echo "HTTP Error #:" . $error_userinfo;
@@ -89,7 +99,8 @@ class Utils
         return null;
     }
 
-    public static function verifyJWT($token) {
+    public static function verifyJWT($token)
+    {
         $jwt = $token;
         if (!is_string($token) && !is_a($token, 'Buffer')) {
             throw new InvalidArgumentException('invalid token input type');
