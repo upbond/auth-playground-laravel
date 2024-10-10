@@ -38,8 +38,6 @@ class Auth0Controller extends Controller
 
     public function logout()
     {
-        $this->auth0Service->logout();
-        Auth::logout();
-        return redirect('/');
+        return $this->auth0Service->logout();
     }
 }

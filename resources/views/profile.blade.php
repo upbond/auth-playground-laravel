@@ -11,9 +11,6 @@
     <h2>ID Token Content</h2>
     <pre>{{ json_encode($decodedToken, JSON_PRETTY_PRINT) }}</pre>
 
-    <form action="{{ route('logout') }}" method="POST">
-        @csrf
-        <button type="submit">Log Out</button>
-    </form>
+    <a href="{{ route('logout') }}">Log Out</a>
 </body>
 </html>
