@@ -12,10 +12,10 @@ cp .env.dev .env
 Run the application:
 
 ```
-php artisan serve --host localhost --port 8000
+php artisan serve --host localhost --port 3000
 ```
 
-Open in browser http://localhost:8000
+Open in browser http://localhost:3000
 
 ## License
 
@@ -39,10 +39,10 @@ cp .env.dev .env
 アプリケーションを実行する：
 
 ```
-php artisan serve --host localhost --port 8000
+php artisan serve --host localhost --port 3000
 ```
 
-ブラウザで開く http://localhost:8000
+ブラウザで開く http://localhost:3000
 
 ## ライセンス
 
