@@ -7,8 +7,6 @@
 </head>
 <body>
     <h1>You are not logged in.</h1>
-    <form action="/login" method="GET">
-        <button type="submit">Login</button>
-    </form>
+    <a href="{{ route('login', ['returnTo' => url('/profile')]) }}">Log In</a>
 </body>
 </html>

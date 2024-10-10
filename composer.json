@@ -23,6 +23,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
+        "auth0/auth0-php": "^8.11",
         "auth0/login": "^7.8",
         "guzzlehttp/guzzle": "^7",
         "laravel/framework": "^9",

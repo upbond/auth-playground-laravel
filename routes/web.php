@@ -4,6 +4,8 @@ use Auth0\Laravel\Facade\Auth0;
 use Auth0\SDK\Configuration\{SdkConfiguration, SdkState};
 use Illuminate\Support\Facades\Route;
 use App\Http\Helpers\Utils;
+use App\Http\Controllers\Auth0Controller;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/private', function () {
   return response('Welcome! You are logged in.');
@@ -19,7 +21,7 @@ Route::get('/', function () {
   }
 
   $sessionData = json_decode(session()->get('auth0_session'));
-  $idToken = $sessionData->idToken;
+  $idToken = $sessionData->accessToken;
 
   // $user = Utils::getUserInfo($idToken);
   // $name = isset($user['name']) ? $user['name'] : 'User';
@@ -32,3 +34,8 @@ Route::get('/', function () {
 
   return view('logged_in', ['name' => $name, 'email' => $email, 'user' => $user, 'token' => $idToken]);
 });
+
+Route::get('/login', [Auth0Controller::class, 'login'])->name('login');
+Route::get('/callback', [Auth0Controller::class, 'callback'])->name('callback');
+Route::post('/logout', [Auth0Controller::class, 'logout'])->name('logout');
+Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
