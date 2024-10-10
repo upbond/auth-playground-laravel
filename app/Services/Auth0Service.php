@@ -33,8 +33,16 @@ class Auth0Service
     public function callback()
     {
         $user = $this->auth0->exchange();
+
+        // Retrieve the tokens after a successful exchange
+        $credentials = $this->auth0->getCredentials();
+        $idToken = $credentials->idToken ?? null;
+
         Log::info('User has logged in.', ['user' => $user]);
-        return $user;
+        Log::info('User has logged in.', ['credentials' => $credentials]);
+        Log::info('User has logged in.', ['idToken' => $idToken]);
+
+        return $idToken;
     }
 
     public function logout()
