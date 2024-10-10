@@ -30,8 +30,6 @@ class Auth0Controller extends Controller
         $state = $request->input('state');
         $returnTo = $state ? base64_decode($state) : '/';
 
-        Log::info('User has logged in.', ['idToken' => $idToken]);
-
         // Store the ID token in the session
         $request->session()->put('id_token', $idToken);
 

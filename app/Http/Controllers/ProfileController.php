@@ -90,10 +90,6 @@ class ProfileController extends Controller
         // Get the decoded ID token
         $idToken = $request->session()->get('id_token');
         $decodedToken = decodeIdTokenWithJWKS($idToken);
-
-        Log::info('User has logged in.', ['idToken' => $idToken]);
-        Log::info('User has logged in.', ['decodedToken' => $decodedToken]);
-
         // Pass the decoded ID token data to the profile view
         return view('profile', ['decodedToken' => $decodedToken]);
     }
