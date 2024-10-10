@@ -24,14 +24,14 @@ class Auth0Controller extends Controller
 
     public function callback(Request $request)
     {
-        $idToken = $this->auth0Service->callback();
+        $accessToken = $this->auth0Service->callback();
 
         // Decode the base64 state parameter to get the returnTo value
         $state = $request->input('state');
         $returnTo = $state ? base64_decode($state) : '/';
 
-        // Store the ID token in the session
-        $request->session()->put('id_token', $idToken);
+        // Store the AccessToken in the session
+        $request->session()->put('access_token', $accessToken);
 
         return redirect($returnTo);
     }

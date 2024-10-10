@@ -6,11 +6,11 @@
     <title>User Profile</title>
 </head>
 <body>
-    <h1>User Profile</h1>
+    <h1>プロフィル</h1>
     
-    <h2>ID Token Content</h2>
+    <h2>AccessToken内容</h2>
     <pre>{{ json_encode($decodedToken, JSON_PRETTY_PRINT) }}</pre>
 
-    <a href="{{ route('logout') }}">Log Out</a>
+    <a href="{{ route('logout') }}">ログアウト</a>
 </body>
 </html>

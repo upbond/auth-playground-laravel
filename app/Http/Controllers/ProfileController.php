@@ -24,8 +24,8 @@ class ProfileController extends Controller
     public function show(Request $request)
     {
         // Get the decoded ID token
-        $idToken = $request->session()->get('id_token');
-        $decodedToken = $this->auth0Service->decodeIdTokenWithJWKS($idToken);
+        $accessToken = $request->session()->get('access_token');
+        $decodedToken = $this->auth0Service->decodeAccessTokenWithJWKS($accessToken);
         // Pass the decoded ID token data to the profile view
         return view('profile', ['decodedToken' => $decodedToken]);
     }

@@ -39,7 +39,7 @@ class Auth0Service
         return $pem;
     }
     
-    public function decodeIdTokenWithJWKS($idToken)
+    public function decodeAccessTokenWithJWKS($accessToken)
     {
         $auth0Domain = env('AUTH0_DOMAIN'); // e.g., 'https://auth-wallet.stg.upbond.io/'
         $jwksUrl = "{$auth0Domain}.well-known/jwks.json";
@@ -52,7 +52,7 @@ class Auth0Service
             Log::info('jwks', ['jwks' => $jwks]);
     
             // Decode the JWT header to get the 'kid' (key ID)
-            $tokenParts = explode('.', $idToken);
+            $tokenParts = explode('.', $accessToken);
             $header = json_decode(base64_decode($tokenParts[0]), true);
             $kid = $header['kid'];
     
@@ -66,16 +66,12 @@ class Auth0Service
             }
     
             // Use the PEM key to verify the ID token
-            $decoded = JWT::decode($idToken, new Key($publicKey, 'RS256'));
+            $decoded = JWT::decode($accessToken, new Key($publicKey, 'RS256'));
             Log::info('decoded', ['decoded' => $decoded]);
     
             // Verify other claims like 'iss' and 'aud'
             if ($decoded->iss !== $auth0Domain) {
                 throw new \Exception('Invalid issuer.');
-            }
-    
-            if (!in_array(env('AUTH0_CLIENT_ID'), (array) $decoded->aud)) {
-                throw new \Exception('Invalid audience.');
             }
     
             return $decoded;
@@ -88,17 +84,17 @@ class Auth0Service
     public function checkSession()
     {
         // Retrieve the ID token from the session
-        $idToken = Session::get('id_token');
+        $accessToken = Session::get('access_token');
 
         // If there's no ID token, the user is not authenticated
-        if (!$idToken) {
+        if (!$accessToken) {
             return null;
         }
 
-        // Decode and validate the ID token (you can use the decodeIdTokenWithJWKS method)
+        // Decode and validate the ID token (you can use the decodeAccessTokenWithJWKS method)
         try {
             // Assuming RS256 is used and we have a method to get the correct public key
-            $decodedToken = $this->decodeIdTokenWithJWKS($idToken);
+            $decodedToken = $this->decodeAccessTokenWithJWKS($accessToken);
 
             // You can return the decoded token or user data here
             return $decodedToken;
@@ -123,15 +119,15 @@ class Auth0Service
 
         // Retrieve the tokens after a successful exchange
         $credentials = $this->auth0->getCredentials();
-        $idToken = $credentials->idToken ?? null;
+        $accessToken = $credentials->accessToken ?? null;
 
-        return $idToken;
+        return $accessToken;
     }
 
     public function logout()
     {
         // Clear the session data
-        Session::forget('id_token');
+        Session::forget('access_token');
         Session::flush();   
         // Optionally, you can also log out of Auth0
         $logoutUrl = env('AUTH0_DOMAIN') . 'v2/logout?client_id=' . env('AUTH0_CLIENT_ID') . '&returnTo=' . urlencode(env('APP_URL'));                     

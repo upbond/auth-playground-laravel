@@ -6,7 +6,7 @@
     <title>Not Logged In</title>
 </head>
 <body>
-    <h1>You are not logged in.</h1>
-    <a href="{{ route('login', ['returnTo' => url('/profile')]) }}">Log In</a>
+    <h1>ログインしていません.</h1>
+    <a href="{{ route('login', ['returnTo' => url('/profile?q=anyparams&test=params')]) }}">ログイン</a>
 </body>
 </html>

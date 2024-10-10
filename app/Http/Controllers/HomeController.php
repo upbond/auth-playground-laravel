@@ -24,7 +24,7 @@ class HomeController extends Controller
             return view('profile', ['decodedToken' => $decodedToken]);
         } else {
             // If not authenticated, redirect to the login page
-            return redirect()->route('login');
+            return view('not_logged_in');
         }
     }
 }
