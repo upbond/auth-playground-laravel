@@ -42,8 +42,7 @@ class Auth0Service
     public function decodeAccessTokenWithJWKS($accessToken)
     {
         $auth0Domain = env('AUTH0_DOMAIN'); // e.g., 'https://auth-wallet.stg.upbond.io/'
-        $jwksUrl = "https://{$auth0Domain}/.well-known/jwks.json";
-        $issuer = "https://{$auth0Domain}/";
+        $jwksUrl = "{$auth0Domain}.well-known/jwks.json";
     
         try {
             // Fetch the JWKS from the Auth0 domain
@@ -71,7 +70,7 @@ class Auth0Service
             Log::info('decoded', ['decoded' => $decoded]);
     
             // Verify other claims like 'iss' and 'aud'
-            if ($decoded->iss !== $issuer) {
+            if ($decoded->iss !== $auth0Domain) {
                 throw new \Exception('Invalid issuer.');
             }
     
@@ -131,7 +130,7 @@ class Auth0Service
         Session::forget('access_token');
         Session::flush();   
         // Optionally, you can also log out of Auth0
-        $logoutUrl = 'https://' . env('AUTH0_DOMAIN') . '/v2/logout?client_id=' . env('AUTH0_CLIENT_ID') . '&returnTo=' . urlencode(env('APP_URL'));                     
+        $logoutUrl = env('AUTH0_DOMAIN') . 'v2/logout?client_id=' . env('AUTH0_CLIENT_ID') . '&returnTo=' . urlencode(env('APP_URL'));                     
         return redirect($logoutUrl);
     }
 }
